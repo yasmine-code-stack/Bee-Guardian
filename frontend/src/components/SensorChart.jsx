@@ -1,3 +1,4 @@
+
 import {
   LineChart,
   Line,
@@ -10,10 +11,11 @@ import {
 } from "recharts";
 
 export default function SensorChart({ data }) {
-  const chartData = data.map((item) => ({
+  const chartData = (data || []).map((item) => ({
     time: new Date(item.time).toLocaleTimeString(),
     temperature: item.temperature,
-    humidity: item.humidity
+    humidity: item.humidity,
+    weight: item.weight
   }));
 
   return (
@@ -26,11 +28,21 @@ export default function SensorChart({ data }) {
             <CartesianGrid strokeDasharray="3 3" />
 
             <XAxis dataKey="time" />
-            <YAxis />
+
+            {/* Left axis: temperature and humidity */}
+            <YAxis yAxisId="left" />
+
+            {/* Right axis: weight */}
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+            />
+
             <Tooltip />
             <Legend />
 
             <Line
+              yAxisId="left"
               type="monotone"
               dataKey="temperature"
               name="Temperature °C"
@@ -39,11 +51,22 @@ export default function SensorChart({ data }) {
             />
 
             <Line
+              yAxisId="left"
               type="monotone"
               dataKey="humidity"
               name="Humidity %"
               stroke="#3189B9"
               strokeWidth={3}
+            />
+
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="weight"
+              name="Hive Weight (kg)"
+              stroke="#16A34A"
+              strokeWidth={3}
+              connectNulls={false}
             />
           </LineChart>
         </ResponsiveContainer>

@@ -46,6 +46,8 @@ function App() {
   }, []);
 
   const latest = data.length > 0 ? data[data.length - 1] : null;
+  console.log("LATEST HIVE DATA:", latest);
+console.log("ALL HIVE DATA:", data);
 
   const isOnline =
     latest &&
