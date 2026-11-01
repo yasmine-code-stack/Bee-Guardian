@@ -1,41 +1,26 @@
-const CHANNEL_ID = import.meta.env.VITE_THINGSPEAK_CHANNEL_ID;
-const READ_KEY = import.meta.env.VITE_THINGSPEAK_READ_KEY;
+const ID = import.meta.env.VITE_THINGSPEAK_CHANNEL_ID;
+const KEY = import.meta.env.VITE_THINGSPEAK_READ_KEY;
 
-export async function getHiveData() {
-  if (!CHANNEL_ID) {
-    throw new Error("ThingSpeak Channel ID is missing.");
-  }
+const num = (v) => (v === null || v === undefined || v === "" ? null : Number(v));
 
-  const url = new URL(
-    `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json`
-  );
+export async function fetchMesures(n = 100) {
+  let url = `https://api.thingspeak.com/channels/${ID}/feeds.json?results=${n}`;
+  if (KEY) url += `&api_key=${KEY}`;
 
-  url.searchParams.set("results", "20");
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`ThingSpeak a répondu ${res.status}`);
+  const data = await res.json();
 
-  if (READ_KEY) {
-    url.searchParams.set("api_key", READ_KEY);
-  }
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error("Unable to connect to ThingSpeak.");
-  }
-
-  const result = await response.json();
-
-  return (result.feeds || [])
-    .map((feed) => ({
-      time: feed.created_at,
-      temperature: parseFloat(feed.field1),
-      humidity: parseFloat(feed.field2),
-      weight: parseFloat(feed.field3),
-      activity: parseFloat(feed.field4)
-    }))
-    .filter((item) => 
-        item.time &&
-        Number.isFinite(item.temperature) &&
-        Number.isFinite(item.humidity) &&
-        Number.isFinite(item.weight)
-    );
+  return (data.feeds || []).map((f) => ({
+    date: f.created_at,                 // chaîne ISO, comme mockData
+    temperature: num(f.field1),
+    humidite: num(f.field2),
+    poids: num(f.field3),
+    cov: num(f.field4),
+    entrees: num(f.field5) ?? 0,
+    sorties: num(f.field6) ?? 0,
+    latitude: num(f.field7),
+    longitude: num(f.field8),
+    batterie: null,                     // pas de capteur de batterie
+  }));
 }

@@ -1,8 +1,12 @@
 import fr from "../i18n/fr";
 
 export default function CarteMesure({ titre, valeur, unite, etat = "ok", details }) {
-  const affichage =
-    typeof valeur === "number" && !Number.isNaN(valeur) ? valeur.toFixed(1) : "--";
+    const affichage =
+    typeof valeur === "string"
+      ? valeur
+      : typeof valeur === "number" && !Number.isNaN(valeur)
+        ? valeur.toFixed(1)
+        : "--";
 
   return (
     <div className={`carte ${etat}`}>

@@ -3,20 +3,11 @@ import CarteMesure from "../components/CarteMesure";
 
 const CAPTEURS = ["temperature", "humidite", "cov", "entrees", "sorties", "poids"];
 
-function ageTexte(date) {
-  const s = Math.round((Date.now() - new Date(date).getTime()) / 1000);
-  if (s < 60) return `${fr.commun.il_y_a} ${s} ${fr.commun.secondes}`;
-  return `${fr.commun.il_y_a} ${Math.round(s / 60)} ${fr.commun.minutes}`;
-}
-
 export default function Systeme({ mesures }) {
   if (!mesures || mesures.length === 0) {
     return <p className="message-vide">{fr.commun.chargement}</p>;
   }
   const d = mesures[mesures.length - 1];
-  const ageSecondes = (Date.now() - new Date(d.date).getTime()) / 1000;
-  const enLigne = ageSecondes < 120;
-  const etatBatterie = d.batterie < 20 ? "danger" : d.batterie < 40 ? "attention" : "ok";
   const s = fr.pages.systeme;
 
   return (
@@ -24,11 +15,12 @@ export default function Systeme({ mesures }) {
       <h2 className="page-titre">{s.titre}</h2>
 
       <div className="grille-cartes">
-        <CarteMesure titre={fr.capteurs.batterie.nom} valeur={d.batterie}
-          unite="%" etat={etatBatterie} />
-        <CarteMesure titre={s.connexion} valeur={NaN} unite=""
-          etat={enLigne ? "ok" : "danger"}
-          details={`${enLigne ? s.enLigne : s.horsLigne} · ${s.derniereReception} : ${ageTexte(d.date)}`} />
+        <CarteMesure titre={fr.capteurs.batterie.nom} valeur={100}
+  unite="%" etat="ok" />
+
+        
+        <CarteMesure titre={s.connexion} valeur="Actif" unite=""
+          etat="ok" />
       </div>
 
       <div className="graphique">

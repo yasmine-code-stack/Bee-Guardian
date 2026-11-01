@@ -1,105 +1,469 @@
+/* =========================================================
+   BEE GUARDIAN – thème miel & forêt
+   ========================================================= */
 :root {
+  --vert-nuit: #0f3d17;
   --vert-fonce: #1b5e20;
   --vert: #2e7d32;
   --vert-clair: #e8f5e9;
+
+  --miel: #f5b82e;
+  --miel-clair: #ffd45e;
+  --miel-pale: #fff6dc;
+
   --fond: #f4f7f4;
   --texte: #1f2a1f;
   --gris: #6b7a6b;
+
   --ok: #2e7d32;
   --attention: #f9a825;
   --danger: #c62828;
+
+  --rayon: 16px;
+  --ombre: 0 2px 10px rgba(15, 61, 23, 0.07);
+  --ombre-forte: 0 8px 24px rgba(15, 61, 23, 0.14);
 }
 
+/* ---------- Structure ---------- */
 .app-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 250px 1fr;
   min-height: 100vh;
   background: var(--fond);
   color: var(--texte);
 }
 
-/* ---------- Menu ---------- */
+/* =========================================================
+   MENU
+   ========================================================= */
 .menu {
-  background: var(--vert-fonce);
-  color: white;
-  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
+  padding: 1.2rem 0.8rem;
+  color: #fff;
+  overflow-y: auto;
+
+  /* dégradé + motif d'alvéoles */
+  background-color: var(--vert-fonce);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 34L0 84V66l28-16 28 16v18L28 100z' fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1.5'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, var(--vert-fonce) 0%, var(--vert-nuit) 100%);
+  box-shadow: 4px 0 20px rgba(15, 61, 23, 0.18);
 }
-.menu-titre { font-size: 1.2rem; font-weight: 700; margin: 0; }
-.menu-sous-titre { font-size: 0.8rem; opacity: 0.75; margin: 0 0 1.5rem; }
+
+/* ----- En-tête ----- */
+.menu-entete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 1rem;
+  padding: 0 0.2rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.menu-logo {
+  width: auto;
+  height: 105px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.menu-marque {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.menu-titre {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+
+.menu-slogan {
+  margin-top: 7px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--miel);
+}
+
+.menu-sous-titre {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin: 0 0 1rem;
+}
+
+/* ----- Boutons ----- */
 .menu-bouton {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 12px;
+  width: 100%;
+  padding: 0.75rem 0.9rem;
   background: transparent;
-  color: white;
+  color: rgba(255, 255, 255, 0.88);
   border: none;
-  padding: 0.7rem 0.8rem;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 12px;
   font-size: 0.95rem;
+  font-family: inherit;
   text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, color 0.2s;
 }
-.menu-bouton:hover { background: rgba(255, 255, 255, 0.12); }
-.menu-bouton.actif { background: white; color: var(--vert-fonce); font-weight: 600; }
 
-/* ---------- Pages ---------- */
-.contenu { padding: 2rem; overflow-y: auto; }
-.page-titre { margin: 0 0 1.5rem; color: var(--vert-fonce); }
-.message-vide { color: var(--gris); font-style: italic; }
+.menu-bouton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transform: translateX(3px);
+}
 
+.menu-bouton.actif {
+  background: linear-gradient(135deg, var(--miel-clair), var(--miel));
+  color: var(--vert-nuit);
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(245, 184, 46, 0.35);
+  transform: none;
+}
+
+/* ----- Icônes ----- */
+.menu-icone {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--miel);
+  transition: color 0.2s;
+}
+.menu-bouton:hover .menu-icone { color: var(--miel-clair); }
+.menu-bouton.actif .menu-icone { color: var(--vert-nuit); }
+
+/* =========================================================
+   CONTENU
+   ========================================================= */
+.contenu {
+  padding: 2rem 2.2rem;
+  overflow-y: auto;
+}
+
+.page-titre {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 1.6rem;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--vert-nuit);
+}
+/* petite barre miel devant les titres */
+.page-titre::before {
+  content: "";
+  width: 6px;
+  height: 1.8rem;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--miel-clair), var(--miel));
+}
+
+.message-vide {
+  color: var(--gris);
+  font-style: italic;
+}
+
+/* ---------- Grilles ---------- */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.1rem;
+  margin-bottom: 1.6rem;
 }
+
 .grille-graphiques {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
-/* ---------- Carte mesure ---------- */
+/* =========================================================
+   CARTES DE MESURE
+   ========================================================= */
 .carte {
-  background: white;
-  border-radius: 12px;
-  padding: 1rem 1.2rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  border-left: 5px solid var(--ok);
+  position: relative;
+  background: #fff;
+  border-radius: var(--rayon);
+  padding: 1.1rem 1.3rem;
+  box-shadow: var(--ombre);
+  border: 1px solid rgba(27, 94, 32, 0.06);
+  border-top: 4px solid var(--ok);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.carte.attention { border-left-color: var(--attention); }
-.carte.danger { border-left-color: var(--danger); }
-.carte-titre { margin: 0; font-size: 0.85rem; color: var(--gris); }
-.carte-valeur { font-size: 2rem; font-weight: 700; margin: 0.3rem 0; }
-.carte-unite { font-size: 1rem; font-weight: 400; color: var(--gris); margin-left: 0.3rem; }
-.carte-details { margin: 0; font-size: 0.8rem; color: var(--gris); }
+.carte:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ombre-forte);
+}
+.carte.attention { border-top-color: var(--attention); }
+.carte.danger    { border-top-color: var(--danger); }
 
-.badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px;
-  font-size: 0.75rem; font-weight: 600; color: white; background: var(--ok); }
-.badge.attention { background: var(--attention); color: #333; }
-.badge.danger { background: var(--danger); }
+.carte-titre {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.carte-valeur {
+  margin: 0.4rem 0;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--vert-nuit);
+}
+.carte-unite {
+  margin-left: 0.3rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gris);
+}
+.carte-details {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--gris);
+}
 
-/* ---------- Graphique ---------- */
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: var(--ok);
+}
+.badge.attention { background: var(--miel); color: #4a3500; }
+.badge.danger    { background: var(--danger); }
+
+/* =========================================================
+   GRAPHIQUES, CARTE, SYSTÈME
+   ========================================================= */
 .graphique {
-  background: white;
-  border-radius: 12px;
-  padding: 1rem 1.2rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  border-radius: var(--rayon);
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--ombre);
+  border: 1px solid rgba(27, 94, 32, 0.06);
 }
-.graphique h3 { margin: 0 0 0.8rem; font-size: 1rem; color: var(--vert-fonce); }
+.graphique h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--vert-nuit);
+}
 
-/* ---------- Carte Leaflet ---------- */
-.carte-leaflet { height: 450px; width: 100%; border-radius: 12px; overflow: hidden; }
+.carte-leaflet {
+  height: 450px;
+  width: 100%;
+  border-radius: var(--rayon);
+  overflow: hidden;
+  box-shadow: var(--ombre);
+}
 
-/* ---------- Système ---------- */
-.liste-systeme { list-style: none; padding: 0; margin: 0; }
-.liste-systeme li { display: flex; justify-content: space-between; padding: 0.6rem 0;
-  border-bottom: 1px solid #eee; }
+.liste-systeme {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.liste-systeme li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed rgba(27, 94, 32, 0.18);
+}
+.liste-systeme li:last-child { border-bottom: none; }
 
+/* ---------- Barre de défilement ---------- */
+.menu::-webkit-scrollbar,
+.contenu::-webkit-scrollbar { width: 8px; }
+.contenu::-webkit-scrollbar-thumb {
+  background: rgba(27, 94, 32, 0.25);
+  border-radius: 8px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 @media (max-width: 800px) {
   .app-layout { grid-template-columns: 1fr; }
-  .menu { flex-direction: row; flex-wrap: wrap; }
+
+  .menu {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .menu-entete {
+    width: 100%;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.8rem;
+  }
+  .menu-logo { height: 70px; }
+  .menu-bouton { width: auto; padding: 0.55rem 0.8rem; }
+  .contenu { padding: 1.2rem; }
+}
+/* =========================================================
+   TABLEAU DE BORD
+   ========================================================= */
+.tb { display: flex; flex-direction: column; gap: 1.2rem; }
+
+/* ----- Bannière ----- */
+.tb-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.8rem 2rem;
+  border-radius: 20px;
+  color: #fff;
+  overflow: hidden;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 34L0 84V66l28-16 28 16v18L28 100z' fill='none' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='1.5'/%3E%3C/svg%3E"),
+    linear-gradient(120deg, #0f3d17 0%, #1b5e20 55%, #2e7d32 100%);
+  box-shadow: 0 10px 28px rgba(15, 61, 23, 0.25);
+}
+.tb-hero::after {               /* halo miel */
+  content: "";
+  position: absolute;
+  right: -60px; top: -80px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,184,46,.45), transparent 70%);
+  pointer-events: none;
+}
+.tb-hero > * { position: relative; z-index: 1; }
+.tb-hero-sur {
+  margin: 0 0 .3rem;
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--miel);
+}
+.tb-hero h2 { margin: 0; font-size: 1.8rem; font-weight: 800; }
+.tb-hero-sous { margin: .5rem 0 0; opacity: .8; font-size: .92rem; }
+
+.tb-statut {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: .5rem 1rem;
+  border-radius: 999px;
+  font-size: .85rem; font-weight: 700;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(6px);
+}
+.tb-statut i {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #9aa59a;
+}
+.tb-statut.on i {
+  background: #6bff7a;
+  animation: tb-pulse 1.6s infinite;
+}
+.tb-statut.off i { background: var(--miel); }
+@keyframes tb-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(107,255,122,.7); }
+  100% { box-shadow: 0 0 0 10px rgba(107,255,122,0); }
+}
+
+/* ----- Cartes de mesure ----- */
+.tb-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+}
+.tb-carte {
+  position: relative;
+  padding: 1.2rem 1.1rem 1.1rem;
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(27,94,32,.07);
+  box-shadow: var(--ombre);
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.tb-carte::before {            /* liseré miel */
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--miel-clair), var(--miel));
+}
+.tb-carte:hover { transform: translateY(-4px); box-shadow: var(--ombre-forte); }
+
+.tb-carte-icone {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  margin-bottom: .8rem;
+  border-radius: 12px;
+  background: var(--miel-pale);
+  color: #b57f00;
+}
+.tb-carte-icone svg { width: 22px; height: 22px; }
+.tb-carte-titre {
+  font-size: .75rem; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--gris);
+}
+.tb-carte-valeur {
+  margin-top: .25rem;
+  font-size: 2rem; font-weight: 800;
+  color: var(--vert-nuit);
+}
+.tb-carte-valeur small {
+  margin-left: .35rem;
+  font-size: .85rem; font-weight: 500;
+  color: var(--gris);
+}
+
+/* ----- Sections (alertes, caméra) ----- */
+.tb-section {
+  padding: 1.3rem 1.5rem;
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(27,94,32,.07);
+  box-shadow: var(--ombre);
+}
+.tb-section-tete {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: .9rem;
+}
+.tb-section-tete h3 { margin: 0; font-size: 1.05rem; color: var(--vert-nuit); }
+
+.tb-compteur {
+  min-width: 28px; padding: .15rem .6rem;
+  border-radius: 999px;
+  text-align: center;
+  font-size: .8rem; font-weight: 800;
+  background: var(--vert-clair); color: var(--vert);
+}
+.tb-compteur.warn { background: var(--miel); color: #4a3500; }
+
+.tb-ok {
+  margin: 0; padding: .8rem 1rem;
+  border-radius: 12px;
+  background: var(--vert-clair);
+  color: var(--vert-fonce);
+  font-weight: 600;
+}
+.tb-alerte {
+  display: flex; flex-direction: column; gap: 2px;
+  margin-bottom: .6rem;
+  padding: .8rem 1rem;
 }
