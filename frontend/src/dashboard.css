@@ -1,0 +1,105 @@
+:root {
+  --vert-fonce: #1b5e20;
+  --vert: #2e7d32;
+  --vert-clair: #e8f5e9;
+  --fond: #f4f7f4;
+  --texte: #1f2a1f;
+  --gris: #6b7a6b;
+  --ok: #2e7d32;
+  --attention: #f9a825;
+  --danger: #c62828;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background: var(--fond);
+  color: var(--texte);
+}
+
+/* ---------- Menu ---------- */
+.menu {
+  background: var(--vert-fonce);
+  color: white;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.menu-titre { font-size: 1.2rem; font-weight: 700; margin: 0; }
+.menu-sous-titre { font-size: 0.8rem; opacity: 0.75; margin: 0 0 1.5rem; }
+.menu-bouton {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-align: left;
+}
+.menu-bouton:hover { background: rgba(255, 255, 255, 0.12); }
+.menu-bouton.actif { background: white; color: var(--vert-fonce); font-weight: 600; }
+
+/* ---------- Pages ---------- */
+.contenu { padding: 2rem; overflow-y: auto; }
+.page-titre { margin: 0 0 1.5rem; color: var(--vert-fonce); }
+.message-vide { color: var(--gris); font-style: italic; }
+
+.grille-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.grille-graphiques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1rem;
+}
+
+/* ---------- Carte mesure ---------- */
+.carte {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid var(--ok);
+}
+.carte.attention { border-left-color: var(--attention); }
+.carte.danger { border-left-color: var(--danger); }
+.carte-titre { margin: 0; font-size: 0.85rem; color: var(--gris); }
+.carte-valeur { font-size: 2rem; font-weight: 700; margin: 0.3rem 0; }
+.carte-unite { font-size: 1rem; font-weight: 400; color: var(--gris); margin-left: 0.3rem; }
+.carte-details { margin: 0; font-size: 0.8rem; color: var(--gris); }
+
+.badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600; color: white; background: var(--ok); }
+.badge.attention { background: var(--attention); color: #333; }
+.badge.danger { background: var(--danger); }
+
+/* ---------- Graphique ---------- */
+.graphique {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+.graphique h3 { margin: 0 0 0.8rem; font-size: 1rem; color: var(--vert-fonce); }
+
+/* ---------- Carte Leaflet ---------- */
+.carte-leaflet { height: 450px; width: 100%; border-radius: 12px; overflow: hidden; }
+
+/* ---------- Système ---------- */
+.liste-systeme { list-style: none; padding: 0; margin: 0; }
+.liste-systeme li { display: flex; justify-content: space-between; padding: 0.6rem 0;
+  border-bottom: 1px solid #eee; }
+
+@media (max-width: 800px) {
+  .app-layout { grid-template-columns: 1fr; }
+  .menu { flex-direction: row; flex-wrap: wrap; }
+}
